@@ -1,9 +1,9 @@
-package com.company;
+package com.company.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import com.company.model.AppModel;
+import com.company.view.AppView;
 
-public class AppController implements ViewListener,ModelListener {
+public class AppController implements ViewListener, ModelListener {
     private final AppView appView;
     private final AppModel appModel;
 

@@ -1,5 +1,9 @@
 package com.company;
 
+import com.company.controller.AppController;
+import com.company.model.AppModel;
+import com.company.view.AppView;
+
 import javax.swing.*;
 
 public class VirtualDietician {

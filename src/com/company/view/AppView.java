@@ -1,4 +1,6 @@
-package com.company;
+package com.company.view;
+
+import com.company.controller.ViewListener;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
