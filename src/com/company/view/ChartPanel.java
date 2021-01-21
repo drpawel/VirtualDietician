@@ -1,4 +1,6 @@
 package com.company.view;
 
-public class ChartPanel {
+import javax.swing.*;
+
+public class ChartPanel extends JFrame {
 }

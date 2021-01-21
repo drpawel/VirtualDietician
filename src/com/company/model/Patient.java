@@ -1,12 +1,14 @@
 package com.company.model;
 
-public class Patient {
-    private String name,surname;
-    private int height;
+import java.util.ArrayList;
 
-    public Patient(String name, String surname, int height) {
+public class Patient {
+    private String name;
+    private float height;
+    private ArrayList<Measurement> measurements = new ArrayList<>();
+
+    public Patient(String name, float height) {
         this.name = name;
-        this.surname = surname;
         this.height = height;
     }
 
@@ -14,11 +16,7 @@ public class Patient {
         return name;
     }
 
-    public String getSurname() {
-        return surname;
-    }
-
-    public int getHeight() {
+    public float getHeight() {
         return height;
     }
 }
