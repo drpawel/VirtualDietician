@@ -18,6 +18,16 @@ public class DialogLibrary {
     }
 
     /**
+     * MessageDialog - "Data is not valid!"
+     */
+    public static void showNoValidDataDialog() {
+        JOptionPane.showMessageDialog(null,
+                "Data is not valid!",
+                "Warning",
+                JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
      * MessageDialog - "There is no any measurement!"
      */
     public static void showNoMeasureDialog() {

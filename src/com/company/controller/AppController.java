@@ -29,19 +29,19 @@ public class AppController implements ViewListener, ModelListener {
                 AddPatientPanel addPatientPanel = new AddPatientPanel();
                 addPatientPanel.getSubmitButton().addActionListener(e -> {
                     System.out.println("ADDED Patient");
-                    //appModel.insertPatientToDataBase(addPatientPanel.getPatientName(),addPatientPanel.getPatientHeight());
+                    //appModel.insertPatientToDataBase(addPatientPanel.getPatientName(),addPatientPanel.getPatientPesel(),addPatientPanel.getPatientHeight());
                 });
                 break;
             case "Delete Patient":
                 System.out.println("DELETE");
-                //appModel.deletePatientFromDataBase(appModel.getCurrentPatient);
+                //appModel.deletePatientFromDataBase(appModel.getCurrentPatientPesel());
                 break;
             case "Add Measurement":
                 System.out.println("MEASUREMENT");
                 AddDataPanel addDataPanel = new AddDataPanel();
                 addDataPanel.getSubmitButton().addActionListener(e -> {
                     System.out.println("ADDED MEASUREMENT");
-                    //appModel.insertMeasurementToDataBase(addDataPanel.getWeight(),addDataPanel.getBMI(),appModel.getCurrentPatient());
+                    //appModel.insertMeasurementToDataBase(addDataPanel.getWeight(),addDataPanel.getBMI(),appModel.getCurrentPatientPesel());
                 });
                 break;
             case "Show stats":
