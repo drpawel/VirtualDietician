@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AppView extends JFrame implements ActionListener {
-    private ViewListener viewListener;
+    private ViewListener viewListener = null;
 
     public AppView() {
     }

@@ -26,4 +26,12 @@ public class DialogLibrary {
                 "Warning",
                 JOptionPane.ERROR_MESSAGE);
     }
+
+    /**
+     * MessageDialog - "Patient deleted!"
+     */
+    public static void showPatientDeletedDialog() {
+        JOptionPane.showMessageDialog(null,
+                "Patient deleted!");
+    }
 }

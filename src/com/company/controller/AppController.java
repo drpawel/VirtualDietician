@@ -1,6 +1,7 @@
 package com.company.controller;
 
 import com.company.model.AppModel;
+import com.company.model.Patient;
 import com.company.view.AddDataPanel;
 import com.company.view.AddPatientPanel;
 import com.company.view.AppView;
@@ -28,18 +29,19 @@ public class AppController implements ViewListener, ModelListener {
                 AddPatientPanel addPatientPanel = new AddPatientPanel();
                 addPatientPanel.getSubmitButton().addActionListener(e -> {
                     System.out.println("ADDED Patient");
-                    //TODO add to AppModel
+                    //appModel.insertPatientToDataBase(addPatientPanel.getPatientName(),addPatientPanel.getPatientHeight());
                 });
                 break;
             case "Delete Patient":
                 System.out.println("DELETE");
+                //appModel.deletePatientFromDataBase(appModel.getCurrentPatient);
                 break;
             case "Add Measurement":
                 System.out.println("MEASUREMENT");
                 AddDataPanel addDataPanel = new AddDataPanel();
                 addDataPanel.getSubmitButton().addActionListener(e -> {
                     System.out.println("ADDED MEASUREMENT");
-                    //TODO add to AppModel
+                    //appModel.insertMeasurementToDataBase(addDataPanel.getWeight(),addDataPanel.getBMI(),appModel.getCurrentPatient());
                 });
                 break;
             case "Show stats":
