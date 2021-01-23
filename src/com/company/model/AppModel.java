@@ -3,27 +3,46 @@ package com.company.model;
 import com.company.controller.ModelListener;
 
 import java.sql.*;
+import java.util.ArrayList;
 
+/**
+ * AppModel Class
+ */
 public class AppModel {
     private ModelListener modelListener = null;
     private static final String DB_URL="jdbc:derby:Patients;create=true";
     private static final String DB_USER="";
     private static final String DB_PASSWORD="";
 
+    /*
+        From Derby documentation:
+        "If your application runs on JDK 1.6 or higher, then you do not need to explicitly load the EmbeddedDriver. In that environment, the driver loads automatically."
+     */
+
+    /**
+     * AppModel constructor
+     */
     public AppModel() {
         createDataBase();
-//        insertPatientToDataBase("Robert Kubica","11111111111",172);
-//        insertPatientToDataBase("Robert Kubica","21111111111",172);
+//        insertPatientToDataBase("Robert Kurwica","11111111111",172);
+//        insertPatientToDataBase("Robert Kurwica","21111111111",172);
 //        insertMeasurementToDataBase(80,23,"11111111111");
+//        insertMeasurementToDataBase(330,23,"11111111111");
 //        deletePatientFromDataBase("11111111111");
-//        show();
         shutdownDataBase();
     }
 
+    /**
+     * Add modelListener function
+     * @param modelListener Interface overridden in AppController
+     */
     public void addListener(ModelListener modelListener){
         this.modelListener = modelListener;
     }
 
+    /**
+     * Create database function
+     */
     public void createDataBase(){
         try(Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)){
             try(Statement stmt = conn.createStatement()){
@@ -56,6 +75,12 @@ public class AppModel {
         }
     }
 
+    /**
+     * Insert new Patient to database
+     * @param name Name of patient
+     * @param pesel Pesel of patient
+     * @param height Height of patient
+     */
     public void insertPatientToDataBase(String name, String pesel, float height){
         try(Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)){
             try(PreparedStatement stmt = conn.prepareStatement("INSERT INTO Patients (Name,Pesel,Height) VALUES (?,?,?)")) {
@@ -75,6 +100,12 @@ public class AppModel {
         //this.modelListener.modelChanged(this);
     }
 
+    /**
+     * Insert new Patient's Measurement to database function
+     * @param weight Weight of Patient
+     * @param BMI Calculated BMI of Patient
+     * @param pesel Pesel of Patient
+     */
     public void insertMeasurementToDataBase(float weight, float BMI, String pesel){
         try(Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)){
             int patientId = -1;
@@ -98,6 +129,63 @@ public class AppModel {
         //this.modelListener.modelChanged(this);
     }
 
+    /**
+     * Get all Patients from database function
+     * @return patientList List of all Patients from database
+     */
+    public ArrayList<Patient> getPatientsList(){
+        ArrayList<Patient> patientsList = new ArrayList<>();
+        try(Connection conn=DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)){
+            try(Statement stmt = conn.createStatement()){
+                try(ResultSet rs=stmt.executeQuery("SELECT * FROM Patients ORDER BY Name")){
+                    while(rs.next()){
+                        patientsList.add(new Patient(rs.getString("Name"),rs.getString("Pesel"),rs.getFloat("Height")));
+                    }
+                }
+            }catch(SQLException e){
+                System.out.println("Statement execution fail!\n");
+                e.printStackTrace();
+            }
+        }catch(SQLException e){
+            System.out.println("Connection failed!\n");
+            e.printStackTrace();
+        }
+        return patientsList;
+    }
+
+    /**
+     * Get all Measurements of Patient from database function
+     * @return MeasurementsList List of all Patient's Measurements from database
+     */
+    public ArrayList<Measurement> getMeasurementsList(String pesel){
+        ArrayList<Measurement> measurementsList = new ArrayList<>();
+        try(Connection conn=DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)){
+            int patientId = -1;
+            patientId = getPatientId(pesel, conn);
+
+            if(patientId!=-1){
+                try(Statement stmt = conn.createStatement()){
+                    try(ResultSet rs=stmt.executeQuery("SELECT * FROM Measurements WHERE PatientId=patientId ORDER BY Date ASC")){
+                        while(rs.next()){
+                            measurementsList.add(new Measurement(rs.getFloat("Weight"),rs.getFloat("BMI"),rs.getString("Date")));
+                        }
+                    }
+                }catch(SQLException e){
+                    System.out.println("Statement execution fail!\n");
+                    e.printStackTrace();
+                }
+            }
+        }catch(SQLException e){
+            System.out.println("Connection failed!\n");
+            e.printStackTrace();
+        }
+        return measurementsList;
+    }
+
+    /**
+     * Delete Patient from database function
+     * @param pesel Patient's pesel
+     */
     public void deletePatientFromDataBase(String pesel){
         try(Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)){
             int patientId = -1;
@@ -126,6 +214,27 @@ public class AppModel {
         //this.modelListener.modelChanged(this);
     }
 
+    /**
+     * Shutdown database function
+     */
+    public void shutdownDataBase(){
+        try {
+            DriverManager.getConnection("jdbc:derby:Patients;shutdown=true");
+        }
+        catch (SQLException se) {
+            // SQL State XJO15 and SQLCode 50000 mean an OK shutdown.
+            if (!(se.getErrorCode() == 50000) && (se.getSQLState().equals("XJ015"))){
+                System.err.println(se);
+            }
+        }
+    }
+
+    /**
+     * Get PatientId by pesel function
+     * @param pesel Patient's pesel
+     * @param conn Connection to database
+     * @return
+     */
     private int getPatientId(String pesel, Connection conn) {
         int patientId = -1;
         try(PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Patients WHERE Pesel=?")) {
@@ -143,35 +252,13 @@ public class AppModel {
         return patientId;
     }
 
-    public void shutdownDataBase(){
-        try {
-            DriverManager.getConnection("jdbc:derby:Patients;shutdown=true");
-        }
-        catch (SQLException se) {
-            // SQL State XJO15 and SQLCode 50000 mean an OK shutdown.
-            if (!(se.getErrorCode() == 50000) && (se.getSQLState().equals("XJ015"))){
-                System.err.println(se);
-            }
-        }
-    }
-
-    public void show(){
-        try (Connection conn=DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            try (Statement stmt = conn.createStatement()) {
-                try (ResultSet rs=stmt.executeQuery("SELECT * FROM Patients ORDER BY Name")) {
-                    while (rs.next())
-                        System.out.println(rs.getString("PatientId") + "\t" + rs.getString("Name") + "\t" + rs.getString("Pesel") + "\t" + rs.getString("Height"));
-                }
-            } catch (SQLException e) {
-                System.out.println("Blad przy wykonywaniu polecania\n");
-                e.printStackTrace();
-            }
-        } catch (SQLException e) {
-            System.out.println("Blad przy tworzeniu polaczenia\n");
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Check if table exist function
+     * @param conn Connection to database
+     * @param tableName Name of table
+     * @return exist Boolean of table existence
+     * @throws SQLException
+     */
     public static boolean tableExists(Connection conn, String tableName) throws SQLException {
         boolean exists=false;
         DatabaseMetaData dbmd=conn.getMetaData();

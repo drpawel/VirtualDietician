@@ -3,13 +3,12 @@ package com.company.model;
 import java.util.ArrayList;
 
 public class Patient {
-    private String pesel,name;
+    private String name,pesel;
     private float height;
-    private ArrayList<Measurement> measurements = new ArrayList<>();
 
-    public Patient(String pesel, String name, float height) {
-        this.pesel = pesel;
+    public Patient(String name, String pesel, float height) {
         this.name = name;
+        this.pesel = pesel;
         this.height = height;
     }
 

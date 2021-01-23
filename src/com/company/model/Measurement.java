@@ -8,7 +8,7 @@ public class Measurement {
     public Measurement(float weight, float BMI, String date) {
         this.weight = weight;
         this.BMI = BMI;
-        Date = date;
+        this.Date = date.split(" ")[0];
     }
 
     public float getWeight() {
