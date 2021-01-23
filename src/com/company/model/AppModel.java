@@ -25,9 +25,9 @@ public class AppModel {
      */
     public AppModel() {
         createDataBase();
-//        insertPatientToDataBase("Robert Kurwica","11111111111",172);
-//        insertPatientToDataBase("Robert Kurwica","21111111111",172);
-//        insertPatientToDataBase("Robert Kurwica","21111111111",172);
+//        insertPatientToDataBase("Robert Krawiec","11111111111",172);
+//        insertPatientToDataBase("Robert Krawiec","21111111111",172);
+//        insertPatientToDataBase("Robert Krawiec","21111111111",172);
 //        insertMeasurementToDataBase(80,23,"11111111111");
 //        insertMeasurementToDataBase(330,23,"11111111111");
 //        deletePatientFromDataBase("11111111111");
@@ -237,7 +237,7 @@ public class AppModel {
      * Get PatientId by pesel function
      * @param pesel Patient's pesel
      * @param conn Connection to database
-     * @return
+     * @return patientId
      */
     private int getPatientId(String pesel, Connection conn) {
         int patientId = -1;
@@ -254,6 +254,33 @@ public class AppModel {
             e.printStackTrace();
         }
         return patientId;
+    }
+
+    /**
+     * Get Patient's height by pesel function
+     * @param pesel Patient's pesel
+     * @return height Patient's height
+     */
+    public float getPatientHeight(String pesel){
+        float height = -1f;
+        try(Connection conn=DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)){
+            try(PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Patients WHERE Pesel=?")) {
+                stmt.setString(1, pesel);
+                try(ResultSet rs=stmt.executeQuery()){
+                    if(rs.next()) {
+                        height = rs.getFloat("Height");
+                    }
+                }
+            }catch(SQLException e) {
+                System.out.println("Statement execution fail!\n");
+                com.company.DialogLibrary.showNoPatientDialog();
+                e.printStackTrace();
+            }
+        }catch(SQLException e){
+            System.out.println("Connection failed!\n");
+            e.printStackTrace();
+        }
+        return height;
     }
 
     /**

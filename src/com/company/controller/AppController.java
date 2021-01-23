@@ -27,7 +27,8 @@ public class AppController implements ViewListener, ModelListener {
                 AddPatientPanel addPatientPanel = new AddPatientPanel();
                 addPatientPanel.getSubmitButton().addActionListener(e -> {
                     System.out.println("ADDED Patient");
-                    //appModel.insertPatientToDataBase(addPatientPanel.getPatientName(),addPatientPanel.getPatientPesel(),addPatientPanel.getPatientHeight());
+                    //appModel.insertPatientToDataBase(addPatientPanel.getPatientName(),
+                    // addPatientPanel.getPatientPesel(),addPatientPanel.getPatientHeight());
                 });
                 break;
             case "Delete Patient":
@@ -39,7 +40,10 @@ public class AppController implements ViewListener, ModelListener {
                 AddDataPanel addDataPanel = new AddDataPanel();
                 addDataPanel.getSubmitButton().addActionListener(e -> {
                     System.out.println("ADDED MEASUREMENT");
-                    //appModel.insertMeasurementToDataBase(addDataPanel.getWeight(),addDataPanel.getBMI(),appView.getCurrentPatientPesel());
+//                    float weight = addDataPanel.getWeight();
+//                    float height = appModel.getPatientHeight(appView.getCurrentPatientPesel());
+//                    float BMI = weight/(height*height);
+//                    appModel.insertMeasurementToDataBase(weight,BMI,appView.getCurrentPatientPesel());
                 });
                 break;
             case "Show stats":
