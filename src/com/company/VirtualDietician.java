@@ -7,9 +7,13 @@ import com.company.view.AppView;
 import javax.swing.*;
 
 /**
- * Main function
+ * Main class
  */
 public class VirtualDietician {
+    /**
+     * Main function
+     * @param args
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             AppView appView = new AppView();

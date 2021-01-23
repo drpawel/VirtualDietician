@@ -26,12 +26,12 @@ public class AppModel {
     public AppModel() {
         createDataBase();
 //        insertPatientToDataBase("Robert Kurwica","11111111111",172);
-        insertPatientToDataBase("Robert Kurwica","21111111111",172);
-        insertPatientToDataBase("Robert Kurwica","21111111111",172);
+//        insertPatientToDataBase("Robert Kurwica","21111111111",172);
+//        insertPatientToDataBase("Robert Kurwica","21111111111",172);
 //        insertMeasurementToDataBase(80,23,"11111111111");
 //        insertMeasurementToDataBase(330,23,"11111111111");
-        deletePatientFromDataBase("11111111111");
-        deletePatientFromDataBase("21111111111");
+//        deletePatientFromDataBase("11111111111");
+//        deletePatientFromDataBase("21111111111");
         shutdownDataBase();
     }
 

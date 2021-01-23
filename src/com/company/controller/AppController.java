@@ -1,11 +1,9 @@
 package com.company.controller;
 
 import com.company.model.AppModel;
-import com.company.model.Patient;
 import com.company.view.AddDataPanel;
 import com.company.view.AddPatientPanel;
 import com.company.view.AppView;
-import com.company.view.ChartPanel;
 
 public class AppController implements ViewListener, ModelListener {
     private final AppView appView;
@@ -46,7 +44,7 @@ public class AppController implements ViewListener, ModelListener {
                 break;
             case "Show stats":
                 System.out.println("SHOW");
-                //new ChartPanel(appModel.getMeasurementsList(appView.getCurrentPatientPesel()));
+                //new ChartWindow(appModel.getMeasurementsList(appView.getCurrentPatientPesel()));
                 break;
             case "Exit":
                 System.out.println("EXIT");
