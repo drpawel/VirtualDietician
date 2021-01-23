@@ -6,6 +6,9 @@ import com.company.view.AppView;
 
 import javax.swing.*;
 
+/**
+ * Main function
+ */
 public class VirtualDietician {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

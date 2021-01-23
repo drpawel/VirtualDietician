@@ -1,6 +1,7 @@
 package com.company.model;
 
 import com.company.controller.ModelListener;
+import org.apache.derby.shared.common.error.DerbySQLIntegrityConstraintViolationException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,10 +26,12 @@ public class AppModel {
     public AppModel() {
         createDataBase();
 //        insertPatientToDataBase("Robert Kurwica","11111111111",172);
-//        insertPatientToDataBase("Robert Kurwica","21111111111",172);
+        insertPatientToDataBase("Robert Kurwica","21111111111",172);
+        insertPatientToDataBase("Robert Kurwica","21111111111",172);
 //        insertMeasurementToDataBase(80,23,"11111111111");
 //        insertMeasurementToDataBase(330,23,"11111111111");
-//        deletePatientFromDataBase("11111111111");
+        deletePatientFromDataBase("11111111111");
+        deletePatientFromDataBase("21111111111");
         shutdownDataBase();
     }
 
@@ -88,8 +91,9 @@ public class AppModel {
                 stmt.setString(2,pesel);
                 stmt.setFloat(3,height);
                 stmt.executeUpdate();
-            }catch(SQLException e){
+            }catch(DerbySQLIntegrityConstraintViolationException e){
                 com.company.DialogLibrary.showNoValidDataDialog();
+            }catch(SQLException e){
                 System.out.println("Statement execution fail!\n");
                 e.printStackTrace();
             }
