@@ -356,7 +356,7 @@ public class ChartWindow extends JFrame {
      * Setting frame
      */
     private void setFrame(){
-        setTitle("Add data");
+        setTitle("Chart Panel");
         pack();
         setResizable(false);
         setLocationRelativeTo(null);

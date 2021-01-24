@@ -88,7 +88,7 @@ public class AppView extends JFrame implements ActionListener {
      *Setting frame
      */
     private void setFrame(){
-        setTitle("Add data");
+        setTitle("Virtual Dietician");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setLocationRelativeTo(null);
