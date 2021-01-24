@@ -23,7 +23,6 @@ public class ChartWindow extends JFrame {
     private ArrayList<Measurement> measurements;
     private JButton exitButton = new JButton("Exit");
 
-
     /**
      * ChartWindow constructor
      * @param measurements
@@ -65,7 +64,7 @@ public class ChartWindow extends JFrame {
         XYDataset databaseBMI = prepareDatabaseBMI(measurements);
         XYDataset databaseWeight = prepareDatabaseWeight(measurements);
 
-        JFreeChart chartBMI = ChartFactory.createXYLineChart("BMI chart", "date", "BMI",
+        JFreeChart chartBMI = ChartFactory.createXYLineChart("BMI chart", "DATE", "BMI",
                 databaseBMI, PlotOrientation.VERTICAL, false, false, false);
         ChartPanel chartPanelBMI = new ChartPanel(chartBMI);
         final XYPlot plot1 = chartBMI.getXYPlot();
@@ -77,7 +76,7 @@ public class ChartWindow extends JFrame {
 
         plot1.setRenderer( renderer1 );
 
-        JFreeChart chartWeight = ChartFactory.createXYLineChart("Weight chart", "date", "weight",
+        JFreeChart chartWeight = ChartFactory.createXYLineChart("Weight chart", "DATE", "WEIGHT",
                 databaseWeight, PlotOrientation.VERTICAL, false, false, false);
         ChartPanel chartPanelWeight = new ChartPanel(chartWeight);
         final XYPlot plot2 = chartWeight.getXYPlot();
@@ -117,12 +116,12 @@ public class ChartWindow extends JFrame {
         float Wmin = getWeightmin(measurements);
         float Waver = getWeightaver(measurements);
 
-        infoPanel.add(new JLabel ("BMI max: " + BMImax));
-        infoPanel.add(new JLabel ("BMI min: " + BMImin));
-        infoPanel.add(new JLabel ("BMI aver: " + BMIaver));
-        infoPanel.add(new JLabel ("Weight max: " + Wmax));
-        infoPanel.add(new JLabel ("Weight min: " + Wmin));
-        infoPanel.add(new JLabel ("Weight aver: " + Waver));
+        infoPanel.add(new JLabel ("MAX BMI: " + BMImax));
+        infoPanel.add(new JLabel ("MIN BMI: " + BMImin));
+        infoPanel.add(new JLabel ("AVG BMI: " + BMIaver));
+        infoPanel.add(new JLabel ("MAX WEIGHT: " + Wmax));
+        infoPanel.add(new JLabel ("MIN WEIGHT: " + Wmin));
+        infoPanel.add(new JLabel ("AVG WEIGHT: " + Waver));
 
 
         return infoPanel;
@@ -137,17 +136,18 @@ public class ChartWindow extends JFrame {
 
         JPanel dataPanel = new JPanel();
         int size = measurements.size();
-        String[][] data = new String [size][3];
+        String[][] data = new String [size][4];
         for(int i=0; i<measurements.size(); i++ ) {
 
             String weight = Float.toString(measurements.get(i).getWeight());
             String BMI = Float.toString(measurements.get(i).getBMI());
-            data[i][0] = weight;
-            data[i][1] = BMI;
-            data[i][2] = measurements.get(i).getDate();
+            data[i][0] = Integer.toString(i);
+            data[i][1] = weight;
+            data[i][2] = BMI;
+            data[i][3] = measurements.get(i).getDate();
 
         }
-        String column[]={"Weight","BMI","DATA"};
+        String column[]={"No.","WEIGHT","BMI","DATA"};
         final JTable jt=new JTable(data,column);
 
         JScrollPane scrollPane = new JScrollPane();
