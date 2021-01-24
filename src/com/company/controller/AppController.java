@@ -48,9 +48,15 @@ public class AppController implements ViewListener, ModelListener {
             case "Add Patient":
                 AddPatientPanel addPatientPanel = new AddPatientPanel();
                 addPatientPanel.getSubmitButton().addActionListener(e -> {
-                    appModel.insertPatientToDataBase(addPatientPanel.getPatientName(),
-                            addPatientPanel.getPatientPesel(),addPatientPanel.getPatientHeight());
-                    addPatientPanel.dispose();
+                    try {
+                        String name = addPatientPanel.getPatientName();
+                        String pesel = addPatientPanel.getPatientPesel();
+                        float height = addPatientPanel.getPatientHeight();
+                        appModel.insertPatientToDataBase(name,pesel,height);
+                        addPatientPanel.dispose();
+                    }catch (IllegalArgumentException illegalArgumentException){
+                        com.company.DialogLibrary.showNoValidDataDialog();
+                    }
                 });
                 break;
 
@@ -76,11 +82,15 @@ public class AppController implements ViewListener, ModelListener {
                 }
                 AddDataPanel addDataPanel = new AddDataPanel();
                 addDataPanel.getSubmitButton().addActionListener(e -> {
-                    float weight = addDataPanel.getWeight();
-                    float height = appModel.getPatientHeight(appView.getCurrentPatientPesel())/100;
-                    float BMI = (weight/(height*height));
-                    appModel.insertMeasurementToDataBase(weight,BMI,appView.getCurrentPatientPesel());
-                    addDataPanel.dispose();
+                    try{
+                        float weight = addDataPanel.getWeight();
+                        float height = appModel.getPatientHeight(appView.getCurrentPatientPesel())/100;
+                        float BMI = (weight/(height*height));
+                        appModel.insertMeasurementToDataBase(weight,BMI,appView.getCurrentPatientPesel());
+                        addDataPanel.dispose();
+                    }catch (IllegalArgumentException illegalArgumentException){
+                        com.company.DialogLibrary.showNoValidDataDialog();
+                    }
                 });
                 break;
 

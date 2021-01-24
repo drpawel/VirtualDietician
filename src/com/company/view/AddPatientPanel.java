@@ -68,7 +68,11 @@ public class AddPatientPanel extends JFrame {
      * @return pesel
      */
     public String getPatientPesel(){
-        return peselTextField.getText();
+        String pesel = peselTextField.getText();
+        if(pesel.length()!=11){
+            throw new IllegalArgumentException("Invalid length of pesel");
+        }
+        return pesel;
     }
 
     /**
