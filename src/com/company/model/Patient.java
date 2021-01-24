@@ -1,7 +1,5 @@
 package com.company.model;
 
-import java.util.ArrayList;
-
 /**
  * Class representing patient
  */

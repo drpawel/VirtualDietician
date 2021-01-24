@@ -1,20 +1,18 @@
 package com.company.view;
 
 import com.company.model.Measurement;
-import com.company.model.Patient;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-
-import javax.imageio.plugins.bmp.BMPImageWriteParam;
 import javax.swing.*;
-import javax.xml.crypto.dsig.spec.XSLTTransformParameterSpec;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -22,11 +20,9 @@ import java.util.ArrayList;
  * ChartWindow Class
  */
 public class ChartWindow extends JFrame {
-
-
+    private ArrayList<Measurement> measurements;
     private JButton exitButton = new JButton("Exit");
-    private ArrayList<Measurement> measurements = new ArrayList<>();
-    private XYSeriesCollection database;
+
 
     /**
      * ChartWindow constructor
@@ -49,9 +45,12 @@ public class ChartWindow extends JFrame {
         mainPanel.add(BorderLayout.WEST, prepareChartPanel(measurements));
         mainPanel.add(BorderLayout.NORTH, prepareInfoPanel(measurements));
         mainPanel.add(BorderLayout.EAST, prepareDataPanel(measurements));
+        exitButton.addActionListener(e -> {
+            this.dispose();
+        });
+        mainPanel.add(BorderLayout.SOUTH,exitButton);
 
         mainPanel.setBorder((BorderFactory.createTitledBorder("Patient data")));
-
 
         return mainPanel;
     }
@@ -71,6 +70,9 @@ public class ChartWindow extends JFrame {
         ChartPanel chartPanelBMI = new ChartPanel(chartBMI);
         final XYPlot plot1 = chartBMI.getXYPlot();
 
+        NumberAxis xAxis1 = (NumberAxis) plot1.getDomainAxis();
+        xAxis1.setTickUnit(new NumberTickUnit(1));
+
         XYLineAndShapeRenderer renderer1 = new XYLineAndShapeRenderer();
 
         plot1.setRenderer( renderer1 );
@@ -79,6 +81,9 @@ public class ChartWindow extends JFrame {
                 databaseWeight, PlotOrientation.VERTICAL, false, false, false);
         ChartPanel chartPanelWeight = new ChartPanel(chartWeight);
         final XYPlot plot2 = chartWeight.getXYPlot();
+
+        NumberAxis xAxis2 = (NumberAxis) plot2.getDomainAxis();
+        xAxis2.setTickUnit(new NumberTickUnit(1));
 
         XYLineAndShapeRenderer renderer2 = new XYLineAndShapeRenderer();
 

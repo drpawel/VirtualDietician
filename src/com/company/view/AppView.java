@@ -2,6 +2,7 @@ package com.company.view;
 
 import com.company.controller.ViewListener;
 import com.company.model.Patient;
+import com.company.model.PatientTableModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,19 +15,19 @@ import java.util.ArrayList;
  */
 public class AppView extends JFrame implements ActionListener {
     private ViewListener viewListener = null;
-    private ArrayList<Patient> patients = new ArrayList<>();
-    private JTable jt = new JTable();
-    private JPanel dataPanel = new JPanel();
+
+    private PatientTableModel patientTableModel = new PatientTableModel();
+    private JTable table = new JTable(patientTableModel);
+
     private JButton addPatientButton = new JButton("Add Patient");
     private JButton deletePatientButton = new JButton("Delete Patient");
-    private JButton addMeasurementtButton = new JButton("Add Measurement");
+    private JButton addMeasurementButton = new JButton("Add Measurement");
     private JButton showStatsButton = new JButton("Show stats");
     private JButton exitButton = new JButton("Exit");
 
     /**
      * AppView constructor
      */
-
     public AppView() {
         this.getContentPane().add(prepareMainPanel());
         setFrame();
@@ -41,10 +42,9 @@ public class AppView extends JFrame implements ActionListener {
         mainPanel.setPreferredSize(new Dimension(600,450));
 
         mainPanel.add(BorderLayout.WEST, prepareButtonPanel());
-        mainPanel.add(BorderLayout.CENTER,prepareDataPanel(patients));
+        mainPanel.add(BorderLayout.CENTER,prepareDataPanel());
 
         mainPanel.setBorder((BorderFactory.createTitledBorder("Virtual dietician application ")));
-
 
         return mainPanel;
     }
@@ -57,12 +57,13 @@ public class AppView extends JFrame implements ActionListener {
         JPanel buttonPanel = new JPanel();
 
         buttonPanel.setLayout(new GridLayout(5,1,11, 25));
+
         addPatientButton.addActionListener(this);
         buttonPanel.add(addPatientButton);
         deletePatientButton.addActionListener(this);
         buttonPanel.add(deletePatientButton);
-        addMeasurementtButton.addActionListener(this);
-        buttonPanel.add(addMeasurementtButton);
+        addMeasurementButton.addActionListener(this);
+        buttonPanel.add(addMeasurementButton);
         showStatsButton.addActionListener(this);
         buttonPanel.add(showStatsButton);
         exitButton.addActionListener(this);
@@ -73,34 +74,14 @@ public class AppView extends JFrame implements ActionListener {
 
     /**
      * creating DataPanel function
-     * @param patients
      * @return DataPanel
      */
-    private JPanel prepareDataPanel(ArrayList<Patient> patients){
-
-        Patient test = new Patient("990909", "Maria", 166);
-        patients.add(test);
-
-        dataPanel = new JPanel();
-        int size = patients.size();
-        String[][] data = new String [size][3];
-        for(int i=0; i<patients.size(); i++ ) {
-
-            String height = Float.toString(patients.get(i).getHeight());
-            data[i][0] = patients.get(i).getName();
-            data[i][1] = height;
-            data[i][2] = patients.get(i).getPesel();
-
-        }
-        String column[]={"NAME","HEIGHT","PESEL"};
-        jt=new JTable(data,column);
-
+    private JPanel prepareDataPanel(){
+        JPanel tmp = new JPanel();
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setViewportView(jt);
-
-        dataPanel.add(scrollPane);
-
-        return dataPanel;
+        scrollPane.setViewportView(table);
+        tmp.add(scrollPane);
+        return tmp;
     }
 
     /**
@@ -108,6 +89,7 @@ public class AppView extends JFrame implements ActionListener {
      */
     private void setFrame(){
         setTitle("Add data");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setLocationRelativeTo(null);
         setResizable(false);
@@ -115,25 +97,29 @@ public class AppView extends JFrame implements ActionListener {
     }
 
     /**
-     *
-     * @param patients
+     * Setting PatientList
+     * @param patients ArrayList of Patients
      */
-    public void addPatientList(ArrayList<Patient> patients){
-        this.patients = patients;
-        this.dataPanel = prepareDataPanel(patients);
-        this.dataPanel.repaint();
+    public void setPatientList(ArrayList<Patient> patients) {
+        patientTableModel.setPatients(patients);
+        patientTableModel.fireTableDataChanged();
     }
 
     /**
-     *
+     *  Getter of current Patient's pesel
      * @return pesel
      */
     public String getCurrentPatientPesel(){
-        return (String) jt.getValueAt(jt.getSelectedRow(),2);
+        int index = table.getSelectedRow();
+        if(index == -1){
+            return "none";
+        }else{
+            return (String) table.getValueAt(index,2);
+        }
     }
 
     /**
-     *
+     *  Add listener function
      * @param viewListener
      */
     public void addListener(ViewListener viewListener){
@@ -141,7 +127,7 @@ public class AppView extends JFrame implements ActionListener {
     }
 
     /**
-     *
+     *  actionPerfomed function
      * @param e
      */
     @Override

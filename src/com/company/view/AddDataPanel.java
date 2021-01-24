@@ -10,6 +10,9 @@ public class AddDataPanel extends JFrame {
     private JButton submitButton = new JButton("Submit");
     private JTextField weightTextField = new JTextField();
 
+    /**
+     * AddDataPanel constructor
+     */
     public AddDataPanel(){
         this.getContentPane().add(prepareMainPanel());
         setFrame();

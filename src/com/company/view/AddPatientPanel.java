@@ -9,16 +9,12 @@ import java.awt.*;
 public class AddPatientPanel extends JFrame {
 
     private JButton submitButton = new JButton("Submit");
-    private JButton addNameButton = new JButton("Name: ");
-    private JButton addPeselButton = new JButton("Pesel: ");
-    private JButton addHeightButton = new JButton("Height: ");
-
     private JTextField nameTextField = new JTextField();
     private JTextField peselTextField = new JTextField();
     private JTextField heightTextField = new JTextField();
 
     /**
-     * AddParientPanel constructor
+     * Add Patient Panel constructor
      */
     public AddPatientPanel(){
         this.getContentPane().add(prepareMainPanel());
@@ -45,20 +41,16 @@ public class AddPatientPanel extends JFrame {
      */
     private JPanel prepareOptionsPanel(){
         JPanel optionsPanel = new JPanel();
-
         optionsPanel.setLayout(new GridLayout(3,1));
-        optionsPanel.add(new JLabel ("Name: "));
 
+        optionsPanel.add(new JLabel ("Name: "));
         optionsPanel.add(nameTextField);
 
         optionsPanel.add(new JLabel ("Pesel: "));
-
         optionsPanel.add(peselTextField);
 
         optionsPanel.add(new JLabel ("Height: "));
-
         optionsPanel.add(heightTextField);
-
 
         return optionsPanel;
     }

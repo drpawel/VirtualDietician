@@ -25,14 +25,6 @@ public class AppModel {
      */
     public AppModel() {
         createDataBase();
-//        insertPatientToDataBase("Robert Krawiec","11111111111",172);
-//        insertPatientToDataBase("Robert Krawiec","21111111111",172);
-//        insertPatientToDataBase("Robert Krawiec","21111111111",172);
-//        insertMeasurementToDataBase(80,23,"11111111111");
-//        insertMeasurementToDataBase(330,23,"11111111111");
-//        deletePatientFromDataBase("11111111111");
-//        deletePatientFromDataBase("21111111111");
-        shutdownDataBase();
     }
 
     /**
@@ -41,6 +33,7 @@ public class AppModel {
      */
     public void addListener(ModelListener modelListener){
         this.modelListener = modelListener;
+        this.modelListener.modelChanged(this);
     }
 
     /**
@@ -49,10 +42,10 @@ public class AppModel {
     public void createDataBase(){
         try(Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)){
             try(Statement stmt = conn.createStatement()){
-                try{
-                	stmt.execute("DROP TABLE Measurements");
-                	stmt.execute("DROP TABLE Patients");
-                }catch(Exception e) {}
+//                try{
+//                	stmt.execute("DROP TABLE Measurements");
+//                	stmt.execute("DROP TABLE Patients");
+//                }catch(Exception e) {}
                 if(!tableExists(conn,"Patients")){
                     stmt.execute("CREATE TABLE Patients (PatientId  INTEGER NOT NULL PRIMARY KEY" +
                             "               GENERATED ALWAYS AS IDENTITY(START WITH 1, INCREMENT BY 1)," +
@@ -101,7 +94,7 @@ public class AppModel {
             System.out.println("Connection failed!\n");
             e.printStackTrace();
         }
-        //this.modelListener.modelChanged(this);
+        this.modelListener.modelChanged(this);
     }
 
     /**
@@ -169,7 +162,8 @@ public class AppModel {
 
             if(patientId!=-1){
                 try(Statement stmt = conn.createStatement()){
-                    try(ResultSet rs=stmt.executeQuery("SELECT * FROM Measurements WHERE PatientId=patientId ORDER BY Date ASC")){
+                    String query = "SELECT * FROM Measurements WHERE PatientId="+patientId+" ORDER BY Date ASC";
+                    try(ResultSet rs=stmt.executeQuery(query)){
                         while(rs.next()){
                             measurementsList.add(new Measurement(rs.getFloat("Weight"),rs.getFloat("BMI"),rs.getString("Date")));
                         }
@@ -215,7 +209,7 @@ public class AppModel {
             System.out.println("Connection failed!\n");
             e.printStackTrace();
         }
-        //this.modelListener.modelChanged(this);
+        this.modelListener.modelChanged(this);
     }
 
     /**

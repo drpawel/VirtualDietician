@@ -4,55 +4,100 @@ import com.company.model.AppModel;
 import com.company.view.AddDataPanel;
 import com.company.view.AddPatientPanel;
 import com.company.view.AppView;
+import com.company.view.ChartWindow;
 
+/**
+ * AppController class
+ */
 public class AppController implements ViewListener, ModelListener {
     private final AppView appView;
     private final AppModel appModel;
 
+    /**
+     * AppController constructor
+     * @param appView appView of the app
+     * @param appModel  appModel of the app
+     */
     public AppController(AppView appView, AppModel appModel) {
         this.appView = appView;
         this.appModel = appModel;
     }
 
+    /**
+     * Overridden ModelListener function
+     * @param appModel Corresponding appModel
+     */
     @Override
     public void modelChanged(AppModel appModel) {
-        //appView.setPatientList(appModel.getPatientsList());
+        appView.setPatientList(appModel.getPatientsList());
     }
 
+    /**
+     * Overridden ViewListener function
+     * @param appView Corresponding appModel
+     * @param command Corresponding command from ActionListener
+     */
     @Override
     public void viewChanged(AppView appView, String command) {
         switch (command) {
+            /**
+             * Adding Patient to database
+             */
             case "Add Patient":
-                System.out.println("ADD");
                 AddPatientPanel addPatientPanel = new AddPatientPanel();
                 addPatientPanel.getSubmitButton().addActionListener(e -> {
-                    System.out.println("ADDED Patient");
-                    //appModel.insertPatientToDataBase(addPatientPanel.getPatientName(),
-                    // addPatientPanel.getPatientPesel(),addPatientPanel.getPatientHeight());
+                    appModel.insertPatientToDataBase(addPatientPanel.getPatientName(),
+                            addPatientPanel.getPatientPesel(),addPatientPanel.getPatientHeight());
+                    addPatientPanel.dispose();
                 });
                 break;
+
+            /**
+             * Deleting Patient from database
+             */
             case "Delete Patient":
-                System.out.println("DELETE");
-                //appModel.deletePatientFromDataBase(appView.getCurrentPatientPesel());
+                if(appView.getCurrentPatientPesel()=="none"){
+                    com.company.DialogLibrary.showNoPatientDialog();
+                    break;
+                }
+                appModel.deletePatientFromDataBase(appView.getCurrentPatientPesel());
                 break;
+
+            /**
+             * Adding Measurement to database
+             */
             case "Add Measurement":
-                System.out.println("MEASUREMENT");
+                if(appView.getCurrentPatientPesel()=="none"){
+                    com.company.DialogLibrary.showNoPatientDialog();
+                    break;
+                }
                 AddDataPanel addDataPanel = new AddDataPanel();
                 addDataPanel.getSubmitButton().addActionListener(e -> {
-                    System.out.println("ADDED MEASUREMENT");
-//                    float weight = addDataPanel.getWeight();
-//                    float height = appModel.getPatientHeight(appView.getCurrentPatientPesel());
-//                    float BMI = weight/(height*height);
-//                    appModel.insertMeasurementToDataBase(weight,BMI,appView.getCurrentPatientPesel());
+                    float weight = addDataPanel.getWeight();
+                    float height = appModel.getPatientHeight(appView.getCurrentPatientPesel())/100;
+                    float BMI = (weight/(height*height));
+                    appModel.insertMeasurementToDataBase(weight,BMI,appView.getCurrentPatientPesel());
+                    addDataPanel.dispose();
                 });
                 break;
+
+            /**
+             * Showing statistics
+             */
             case "Show stats":
-                System.out.println("SHOW");
-                //new ChartWindow(appModel.getMeasurementsList(appView.getCurrentPatientPesel()));
+                if(appView.getCurrentPatientPesel()=="none"){
+                    com.company.DialogLibrary.showNoPatientDialog();
+                    break;
+                }
+                new ChartWindow(appModel.getMeasurementsList(appView.getCurrentPatientPesel()));
                 break;
+
+            /**
+             * Closing app
+             */
             case "Exit":
-                System.out.println("EXIT");
                 appModel.shutdownDataBase();
+                System.exit(0);
                 break;
         }
     }
