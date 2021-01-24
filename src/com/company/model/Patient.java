@@ -4,8 +4,9 @@ package com.company.model;
  * Class representing patient
  */
 public class Patient {
-    private String name,pesel;
-    private float height;
+    private final String name;
+    private final String pesel;
+    private final float height;
 
     /**
      * Patient constructor

@@ -4,9 +4,9 @@ package com.company.model;
  * Class representing measurement
  */
 public class Measurement {
-    private float weight;
-    private float BMI;
-    private String date;
+    private final float weight;
+    private final float BMI;
+    private final String date;
 
     /**
      * Measurement constructor

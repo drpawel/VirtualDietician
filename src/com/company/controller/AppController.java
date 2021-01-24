@@ -6,6 +6,8 @@ import com.company.view.AddPatientPanel;
 import com.company.view.AppView;
 import com.company.view.ChartWindow;
 
+import java.util.Objects;
+
 /**
  * AppController class
  */
@@ -40,7 +42,7 @@ public class AppController implements ViewListener, ModelListener {
     @Override
     public void viewChanged(AppView appView, String command) {
         switch (command) {
-            /**
+            /*
              * Adding Patient to database
              */
             case "Add Patient":
@@ -52,22 +54,23 @@ public class AppController implements ViewListener, ModelListener {
                 });
                 break;
 
-            /**
+            /*
              * Deleting Patient from database
              */
             case "Delete Patient":
-                if(appView.getCurrentPatientPesel()=="none"){
+                if(Objects.equals(appView.getCurrentPatientPesel(), "none")){
                     com.company.DialogLibrary.showNoPatientDialog();
                     break;
                 }
                 appModel.deletePatientFromDataBase(appView.getCurrentPatientPesel());
+                com.company.DialogLibrary.showPatientDeletedDialog();
                 break;
 
-            /**
+            /*
              * Adding Measurement to database
              */
             case "Add Measurement":
-                if(appView.getCurrentPatientPesel()=="none"){
+                if(Objects.equals(appView.getCurrentPatientPesel(), "none")){
                     com.company.DialogLibrary.showNoPatientDialog();
                     break;
                 }
@@ -81,18 +84,18 @@ public class AppController implements ViewListener, ModelListener {
                 });
                 break;
 
-            /**
+            /*
              * Showing statistics
              */
             case "Show stats":
-                if(appView.getCurrentPatientPesel()=="none"){
+                if(Objects.equals(appView.getCurrentPatientPesel(), "none")){
                     com.company.DialogLibrary.showNoPatientDialog();
                     break;
                 }
                 new ChartWindow(appModel.getMeasurementsList(appView.getCurrentPatientPesel()));
                 break;
 
-            /**
+            /*
              * Closing app
              */
             case "Exit":

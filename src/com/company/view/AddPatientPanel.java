@@ -8,10 +8,10 @@ import java.awt.*;
  */
 public class AddPatientPanel extends JFrame {
 
-    private JButton submitButton = new JButton("Submit");
-    private JTextField nameTextField = new JTextField();
-    private JTextField peselTextField = new JTextField();
-    private JTextField heightTextField = new JTextField();
+    private final JButton submitButton = new JButton("Submit");
+    private final JTextField nameTextField = new JTextField();
+    private final JTextField peselTextField = new JTextField();
+    private final JTextField heightTextField = new JTextField();
 
     /**
      * Add Patient Panel constructor
@@ -76,7 +76,7 @@ public class AddPatientPanel extends JFrame {
      * @return height
      */
     public float getPatientHeight(){
-        return Float.valueOf(heightTextField.getText());
+        return Float.parseFloat(heightTextField.getText());
     }
 
     /**

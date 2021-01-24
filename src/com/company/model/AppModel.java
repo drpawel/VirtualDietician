@@ -282,7 +282,7 @@ public class AppModel {
      * @param conn Connection to database
      * @param tableName Name of table
      * @return exist Boolean of table existence
-     * @throws SQLException
+     * @throws SQLException Exception of SQL
      */
     public static boolean tableExists(Connection conn, String tableName) throws SQLException {
         boolean exists=false;

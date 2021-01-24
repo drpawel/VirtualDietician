@@ -16,14 +16,14 @@ import java.util.ArrayList;
 public class AppView extends JFrame implements ActionListener {
     private ViewListener viewListener = null;
 
-    private PatientTableModel patientTableModel = new PatientTableModel();
-    private JTable table = new JTable(patientTableModel);
+    private final PatientTableModel patientTableModel = new PatientTableModel();
+    private final JTable table = new JTable(patientTableModel);
 
-    private JButton addPatientButton = new JButton("Add Patient");
-    private JButton deletePatientButton = new JButton("Delete Patient");
-    private JButton addMeasurementButton = new JButton("Add Measurement");
-    private JButton showStatsButton = new JButton("Show stats");
-    private JButton exitButton = new JButton("Exit");
+    private final JButton addPatientButton = new JButton("Add Patient");
+    private final JButton deletePatientButton = new JButton("Delete Patient");
+    private final JButton addMeasurementButton = new JButton("Add Measurement");
+    private final JButton showStatsButton = new JButton("Show stats");
+    private final JButton exitButton = new JButton("Exit");
 
     /**
      * AppView constructor
@@ -120,15 +120,15 @@ public class AppView extends JFrame implements ActionListener {
 
     /**
      *  Add listener function
-     * @param viewListener
+     * @param viewListener ViewListener interface
      */
     public void addListener(ViewListener viewListener){
         this.viewListener = viewListener;
     }
 
     /**
-     *  actionPerfomed function
-     * @param e
+     *  actionPerformed function
+     * @param e ActionEvent
      */
     @Override
     public void actionPerformed(ActionEvent e) {

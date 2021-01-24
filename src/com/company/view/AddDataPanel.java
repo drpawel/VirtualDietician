@@ -7,8 +7,8 @@ import java.awt.*;
  * AddDataPanel Class
  */
 public class AddDataPanel extends JFrame {
-    private JButton submitButton = new JButton("Submit");
-    private JTextField weightTextField = new JTextField();
+    private final JButton submitButton = new JButton("Submit");
+    private final JTextField weightTextField = new JTextField();
 
     /**
      * AddDataPanel constructor
@@ -55,7 +55,7 @@ public class AddDataPanel extends JFrame {
      * @return weight
      */
     public float getWeight(){
-        return Float.valueOf(weightTextField.getText());
+        return Float.parseFloat(weightTextField.getText());
     }
 
     /**

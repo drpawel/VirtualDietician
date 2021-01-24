@@ -28,16 +28,6 @@ public class DialogLibrary {
     }
 
     /**
-     * MessageDialog - "There is no any measurement!"
-     */
-    public static void showNoMeasureDialog() {
-        JOptionPane.showMessageDialog(null,
-                "There is no any measurement!",
-                "Warning",
-                JOptionPane.ERROR_MESSAGE);
-    }
-
-    /**
      * MessageDialog - "Patient deleted!"
      */
     public static void showPatientDeletedDialog() {

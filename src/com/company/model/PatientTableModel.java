@@ -1,7 +1,5 @@
 package com.company.model;
 
-import com.company.model.Patient;
-
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
@@ -9,11 +7,11 @@ import java.util.ArrayList;
  * PatientTableModel class
  */
 public class PatientTableModel extends AbstractTableModel {
-    private String[] columns = {"NAME","HEIGHT","PESEL"};
+    private final String[] columns = {"NAME","HEIGHT","PESEL"};
     private ArrayList<Patient> patients;
 
     /**
-     * PatientTableModel constuctor
+     * PatientTableModel constructor
      */
     public PatientTableModel() {
     }
@@ -60,8 +58,8 @@ public class PatientTableModel extends AbstractTableModel {
 
     /**
      * Value at row and column getter
-     * @param rowIndex
-     * @param columnIndex
+     * @param rowIndex Index of row
+     * @param columnIndex Index of column
      * @return value
      */
     @Override

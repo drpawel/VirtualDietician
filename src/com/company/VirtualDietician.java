@@ -12,7 +12,7 @@ import javax.swing.*;
 public class VirtualDietician {
     /**
      * Main function
-     * @param args
+     * @param args Arguments
      */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
