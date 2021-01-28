@@ -55,7 +55,11 @@ public class AddDataPanel extends JFrame {
      * @return weight
      */
     public float getWeight(){
-        return Float.parseFloat(weightTextField.getText());
+        float weight = Float.parseFloat(weightTextField.getText());
+        if (weight<=0){
+            throw new IllegalArgumentException("Invalid weight");
+        }
+        return weight;
     }
 
     /**

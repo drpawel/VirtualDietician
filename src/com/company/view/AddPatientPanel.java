@@ -60,6 +60,10 @@ public class AddPatientPanel extends JFrame {
      * @return name
      */
     public String getPatientName(){
+        String name = nameTextField.getText();
+        if(name.equals("")){
+            throw new IllegalArgumentException("Invalid name");
+        }
         return nameTextField.getText();
     }
 
